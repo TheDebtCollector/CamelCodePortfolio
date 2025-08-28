@@ -66,28 +66,29 @@ document.addEventListener('DOMContentLoaded', () => {
 const contactForm = document.querySelector('.contact-form');
 if (contactForm) {
     contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
         // Get form data
-        const formData = new FormData(this);
-        const name = this.querySelector('input[type="text"]').value;
-        const email = this.querySelector('input[type="email"]').value;
-        const message = this.querySelector('textarea').value;
+        const name = this.querySelector('input[name="name"]').value;
+        const email = this.querySelector('input[name="email"]').value;
+        const message = this.querySelector('textarea[name="message"]').value;
         
         // Basic validation
         if (!name || !email || !message) {
+            e.preventDefault();
             showNotification('Please fill in all fields', 'error');
             return;
         }
         
         if (!isValidEmail(email)) {
+            e.preventDefault();
             showNotification('Please enter a valid email address', 'error');
             return;
         }
         
-        // Simulate form submission
-        showNotification('Message sent successfully! We\'ll get back to you soon.', 'success');
-        this.reset();
+        // Show loading notification
+        showNotification('Sending message...', 'info');
+        
+        // Let the form submit naturally to Formspree
+        // The form will redirect to Formspree's confirmation page
     });
 }
 
